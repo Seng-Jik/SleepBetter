@@ -52,6 +52,7 @@ namespace SleepBetter
         {
             SleepBetter.IsEnabled = false;
             MotherFucker.IsEnabled = false;
+            CloseWindowBtn.IsEnabled = false;
 
             var c = config.Result;
             c.Days++;
@@ -70,6 +71,7 @@ namespace SleepBetter
         {
             SleepBetter.IsEnabled = false;
             MotherFucker.IsEnabled = false;
+            CloseWindowBtn.IsEnabled = false;
 
             var c = config.Result;
             c.Days = 0;
@@ -83,7 +85,7 @@ namespace SleepBetter
             }).Start();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseWindow(object sender, RoutedEventArgs e)
         {
             Close();
         }
