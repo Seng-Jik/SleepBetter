@@ -1,0 +1,64 @@
+﻿<fw:AcrylicWindow x:Class="SleepBetter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SleepBetter"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        mc:Ignorable="d"
+        Height="450" Width="800"
+        fw:AcrylicWindowStyle="None"
+        Title="Sleep Better"
+        WindowState="Maximized"
+        
+        fw:PointerTracker.Enabled="True" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Topmost="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" Name="Display"></TextBlock>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Button 
+                Grid.Row="0" 
+                Style="{DynamicResource ButtonRoundRevealStyle}" 
+                Grid.Column="0" 
+                FontSize="32"
+                Name="SleepBetter"
+                IsEnabled="False"
+                Click="SleepBetter_Click"></Button>
+            <Button 
+                Grid.Row="2"
+                Style="{DynamicResource ButtonRoundRevealStyle}" 
+                Grid.Column="0" 
+                FontSize="32" 
+                Name="MotherFucker" 
+                IsEnabled="False"
+                Click="MotherFucker_Click">今天熬夜了</Button>
+            <Button 
+                Grid.Row="4"
+                Style="{DynamicResource ButtonRoundRevealStyle}" 
+                Grid.Column="0" 
+                FontSize="16" 
+                Width="100"
+                Click="Button_Click">关闭</Button>
+        </Grid>
+        
+    </Grid>
+</fw:AcrylicWindow>

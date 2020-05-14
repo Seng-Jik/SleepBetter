@@ -1,0 +1,3 @@
+[submodule "GiteeFS"]
+	path = GiteeFS
+	url = https://github.com/Strrationalism/GiteeFS.git
