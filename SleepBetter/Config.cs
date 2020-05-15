@@ -21,7 +21,8 @@ namespace SleepBetter
         {
             accessToken = Authentication.buildAccessToken(Properties.Resources.GiteeAccessToken);
             repo = new Utils.Repo(Properties.Resources.RepoOwner, Properties.Resources.RepoName);
-            var downloaded = FileSystem.getFileByPath(accessToken, repo,path);
+            var downloaded = FileSystem.getFileByPath(
+                Microsoft.FSharp.Core.FSharpOption<Authentication.AccessToken>.Some(accessToken), repo,path);
 
             if (downloaded.IsError)
                 throw downloaded.ErrorValue;
