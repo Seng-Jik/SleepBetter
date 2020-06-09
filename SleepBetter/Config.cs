@@ -19,8 +19,8 @@ namespace SleepBetter
 
         public Config()
         {
-            accessToken = Authentication.buildAccessToken(Properties.Resources.GiteeAccessToken);
-            repo = new Utils.Repo(Properties.Resources.RepoOwner, Properties.Resources.RepoName);
+            accessToken = Authentication.buildAccessToken(SleepBetter.Personal.GiteeRepo.GiteeAccessToken);
+            repo = new Utils.Repo(SleepBetter.Personal.GiteeRepo.GiteeRepoOwner, SleepBetter.Personal.GiteeRepo.GiteeRepoName);
             var downloaded = FileSystem.getFileByPath(
                 Microsoft.FSharp.Core.FSharpOption<Authentication.AccessToken>.Some(accessToken), repo,path);
 

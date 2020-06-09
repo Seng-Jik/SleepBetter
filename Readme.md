@@ -13,8 +13,9 @@
 Days = 0
 ```    
 4. 在Gitee的右上角，你的头像处打开“设置”-“安全设置”-“私人令牌”-“生成新令牌”，至少具有“user_info”和“projects”权限。
-5. 打开本项目，打开SleepBetter/Properties/Resources，将令牌、仓库所有者ID、仓库名称写入。
+5. 打开本项目，打开SleepBetter.Personal/GiteeRepo，将令牌、仓库所有者ID、仓库名称写入。
 6. 对本项目进行git submodule update --init，确保组件GiteeFS存在。
-7. 修改Plan.cs，制定你的熬夜戒除计划。
-8. 编译，然后把编译成果放到你的台式电脑、笔记本电脑和平板电脑上。
-9. 祝你熬夜戒除成功。
+7. 修改SleepBetter.Personal/Plan.fs，制定你的熬夜戒除计划。
+8. 如果你想在一个Web服务器上部署它以在iPhone或者其他设备上使用，可以修改SleepBetter.Personal/WebServerConfig.fs
+9. 编译，然后把编译成果放到你的Web服务器、台式电脑、笔记本电脑和平板电脑上。
+10. 祝你熬夜戒除成功。

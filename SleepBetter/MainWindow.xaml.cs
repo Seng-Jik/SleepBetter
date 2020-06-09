@@ -37,7 +37,7 @@ namespace SleepBetter
                     SleepBetter.IsEnabled = true;
                     MotherFucker.IsEnabled = true;
 
-                    var plan = Plan.GetSleepTime(cfg.Days);
+                    var plan = global::SleepBetter.Personal.Plan.myPlan((int)cfg.Days);
                     SleepBetter.Content =
                         "在 " + plan.Item1.ToString("D2") + ":" + plan.Item2.ToString("D2") + " 之前睡觉";
                 });

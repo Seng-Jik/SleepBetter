@@ -6,3 +6,8 @@
 /packages
 /SleepBetter/obj
 /SleepBetter/bin
+/.vs/SleepBetter/DesignTimeBuild
+/SleepBetter.Personal/obj
+/SleepBetter.Personal/bin
+/SleepBetterWeb/obj
+/SleepBetterWeb/bin
