@@ -1,5 +1,5 @@
 ﻿module SleepBetter.Personal.GiteeRepo
 
-let GiteeAccessToken = ""
+let GiteeAccessToken = Some ""
 let GiteeRepoOwner = ""
 let GiteeRepoName = ""

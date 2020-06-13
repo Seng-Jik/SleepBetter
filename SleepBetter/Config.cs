@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GiteeFS;
+using GiteeDrive;
 
 namespace SleepBetter
 {
@@ -11,36 +11,35 @@ namespace SleepBetter
     class Config
     {
         const string path = "SleepBetter.ini";
-        readonly Authentication.AccessToken accessToken;
-        readonly Utils.Repo repo;
-        readonly FileSystem.Item item;
+        readonly AccessToken accessToken;
+        readonly Repo repo;
+        readonly Item item;
 
         public UInt32 Days { get; set; }
 
         public Config()
         {
-            accessToken = Authentication.buildAccessToken(SleepBetter.Personal.GiteeRepo.GiteeAccessToken);
-            repo = new Utils.Repo(SleepBetter.Personal.GiteeRepo.GiteeRepoOwner, SleepBetter.Personal.GiteeRepo.GiteeRepoName);
-            var downloaded = FileSystem.getFileByPath(
-                Microsoft.FSharp.Core.FSharpOption<Authentication.AccessToken>.Some(accessToken), repo,path);
+            accessToken = GiteeDrive.AccessToken.NewAccessToken(SleepBetter.Personal.GiteeRepo.GiteeAccessToken);
+            repo = new Repo(SleepBetter.Personal.GiteeRepo.GiteeRepoOwner, SleepBetter.Personal.GiteeRepo.GiteeRepoName, "master");
+            var root = 
+                from i in GiteeDrive.RepoModule.getRoot(accessToken,false , repo)
+                where i.IsFile
+                where (i as Item.File).Item1.path == path
+                select i;
+            item = root.First();
 
-            if (downloaded.IsError)
-                throw downloaded.ErrorValue;
-            else
+            
+            var text = ItemModule.downloadString(accessToken, item);
+            var configsText = text.Split('\n');
+            var config = new Dictionary<string, string>();
+            foreach(var i in configsText)
             {
-                item = downloaded.ResultValue.Item1;
-
-                var text = Encoding.UTF8.GetString(downloaded.ResultValue.Item2);
-                var configsText = text.Split('\n');
-                var config = new Dictionary<string, string>();
-                foreach(var i in configsText)
-                {
-                    if (String.IsNullOrWhiteSpace(i)) continue;
-                    var kv = i.Split('=');
-                    config.Add(kv[0].Trim().Trim('\r').Trim(), kv[1].Trim().Trim('\r').Trim());
-                }
-                Days = uint.Parse(config["Days"]);
+                if (String.IsNullOrWhiteSpace(i)) continue;
+                var kv = i.Split('=');
+                config.Add(kv[0].Trim().Trim('\r').Trim(), kv[1].Trim().Trim('\r').Trim());
             }
+            Days = uint.Parse(config["Days"]);
+            
         }
 
         public void Upload()
@@ -54,8 +53,8 @@ namespace SleepBetter
             var blob =
                 Encoding.UTF8.GetBytes(cfg.ToString());
 
-            FileSystem.updateFile(
-                accessToken, item, blob, "更新了睡眠记录");
+            ItemModule.updateString(
+                accessToken, "更新了睡眠记录", cfg.ToString(),item);
         }
     }
 }

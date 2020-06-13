@@ -40,7 +40,13 @@
       <HintPath>..\packages\FluentWPF.0.8.0\lib\net45\FluentWPF.dll</HintPath>
     </Reference>
     <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
+      <HintPath>..\packages\FSharp.Core.4.7.1\lib\net45\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Data, Version=3.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSharp.Data.3.3.3\lib\net45\FSharp.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="GiteeDrive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GiteeDrive.1.0.0\lib\netstandard2.0\GiteeDrive.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -86,10 +92,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GiteeFS\GiteeFS\GiteeFS.fsproj">
-      <Project>{6139514f-47bf-457a-9166-815fade7b902}</Project>
-      <Name>GiteeFS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SleepBetter.Personal\SleepBetter.Personal.fsproj">
       <Project>{956fb213-c295-4a6e-a277-5942559e6a2c}</Project>
       <Name>SleepBetter.Personal</Name>

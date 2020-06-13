@@ -6,15 +6,15 @@ open Suave.Operators
 open FSharpHTML
 open FSharpHTML.Elements
 
-open GiteeFS
-open GiteeFS.Utils
+open GiteeDrive
 open Suave.State.CookieStateStore
 
 
-let giteeAccessToken = Authentication.buildAccessToken SleepBetter.Personal.GiteeRepo.GiteeAccessToken
+let giteeAccessToken = AccessToken SleepBetter.Personal.GiteeRepo.GiteeAccessToken
 let giteeRepo = {
     owner = SleepBetter.Personal.GiteeRepo.GiteeRepoOwner
     repo = SleepBetter.Personal.GiteeRepo.GiteeRepoName
+    branch = "master"
 }
 
 let page text (firstButton:string option) = 
@@ -96,44 +96,48 @@ let parseIni (x:string) =
         a.[0].Trim(),a.[1].Trim())
     |> dict
 
+let getSleepBetterItem () =
+    let root = Repo.getRoot giteeAccessToken false giteeRepo
+    query {
+        for i in root do
+        where (match i with
+                | File (d,_) -> d.path = "SleepBetter.ini"
+                | _ -> false)
+        select i
+        exactlyOne
+    }
+
 let downloadDays () =
-    FileSystem.getFileByPath (Some giteeAccessToken) giteeRepo "SleepBetter.ini"
-    |> Result.map (snd >> System.Text.Encoding.UTF8.GetString >> parseIni)
-    |> Result.map (fun x -> int x.["Days"])
+    getSleepBetterItem ()
+    |> Item.downloadString giteeAccessToken
+    |> parseIni
+    |> fun x -> int x.["Days"]
 
 let uploadDays (days:int) =
     sprintf "Days = %d" days
-    |> System.Text.Encoding.UTF8.GetBytes
     |> fun x ->
-        FileSystem.getFileByPath (Some giteeAccessToken) giteeRepo "SleepBetter.ini"
-        |> Result.bind (fun (item,_) ->
-            FileSystem.updateFile giteeAccessToken item x "更新睡眠记录")
-        |> Result.map ignore
+        getSleepBetterItem ()
+        |> Item.updateString giteeAccessToken "更新睡眠记录" x
 
 let homePage () =
     downloadDays ()
-    |> Result.map (fun days ->
+    |> fun days ->
         let hint = sprintf "你已经坚持%d天没有熬夜了" days
         let hr,min = SleepBetter.Personal.Plan.myPlan days
         let btn = sprintf "在%02d:%02d之前睡觉" hr min |> Some
-        page hint btn)
-    |> function
-    | Ok x -> OK x
-    | Error exn -> OK (sprintf "%A" exn)
+        page hint btn
+    |> OK
 
 let clearPage () =
     uploadDays 0
-    |> function
-    | Ok x -> page "小心猝死" None |> OK
-    | Error exxn -> page (sprintf "%A" exxn) None |> OK
+    page "小心猝死" None |> OK
 
 let incPage () =
-    downloadDays ()
-    |> Result.map ((+) 1)
-    |> Result.bind (fun x -> uploadDays x |> Result.map (fun () -> x))
-    |> function
-    | Ok days -> page (sprintf "你已经坚持%d天没有熬夜了" days) None |> OK
-    | Error exxn -> page (sprintf "%A" exxn) None |> OK
+    let days =
+        downloadDays ()
+        |> (+) 1
+    uploadDays days
+    page (sprintf "你已经坚持%d天没有熬夜了" days) None |> OK
 
 let routing = 
     statefulForSession >=>
